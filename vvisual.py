@@ -41,13 +41,13 @@ def heatmap_canton(df, CANTON, TIPO, hm='General'):
         ax = sns.heatmap(df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=True, annot_kws={'fontsize':7},
                          fmt='3g', cbar=False, mask=df.isnull())        
         plt.title('Heatmap of reported cases in '+CANTON.title()+' ('+TIPO.title()+')', fontsize=18)
-        ax.vlines([14,24,31], *ax.get_ylim()) #adds vertical lines for specific dates
+        #ax.vlines([14,24,31], *ax.get_ylim()) #adds vertical lines for specific dates
     elif hm == 'Normal':
         normal_df = df.div(df.max(axis=1), axis=0)
         plt.figure(figsize=(20,17))
         ax = sns.heatmap(normal_df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=False,
                          cbar=False, mask=df.isnull())
-        ax.vlines([14,24,31], *ax.get_ylim())
+        #ax.vlines([14,24,31], *ax.get_ylim())
         plt.title('Heatmap of reported cases in '+CANTON.title()+' ('+TIPO.title()+')'+' - Normalized', fontsize=18)
 
 # plotting heatmaps for each canton and type
