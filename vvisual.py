@@ -71,5 +71,3 @@ plt.savefig('casos_quito_rur_gen.png', bbox_inches='tight')
 
 heatmap_canton(cases, 'QUITO', 'RURAL', hm='Normal')
 plt.savefig('casos_quito_rur_norm.png', bbox_inches='tight')
-
-#push
