@@ -124,7 +124,9 @@ def fix_month(month, day):
     day: str
     return: str
     '''
-    if int(day) >= 30 and int(month)>4:        
+    if int(day) >= 30 and int(month) < 7:        
+        return str(int(month) + 1).zfill(2)
+    elif int(day) > 30 and int(month) >= 7:
         return str(int(month) + 1).zfill(2)
     else:
         return month
@@ -151,7 +153,9 @@ def verify_quote(filename):
     '''
     pr_dates = ["23.-Infografía-Provincial-02_05_2020.pdf", 
                 "6.-Infografía-Cantonal-29_05_2020.pdf", #no data 
-                "Infografía-Cantonal-25_06_2020.pdf"] #no data
+                "Infografía-Cantonal-25_06_2020.pdf", #no data
+                "105.-Infografía-Provincial-26_07_2020.pdf",
+                "108.-Infografía-Provincial-29_07_2020.pdf"]
     if filename in pr_dates:
         corrected_accent = re.sub('Infografía', 'Infografía', filename) #the accents in these files are different from the rest
         return quote(corrected_accent)

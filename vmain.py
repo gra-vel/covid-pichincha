@@ -90,7 +90,7 @@ def v_chan(filename, values):
         file_url = vfunc.verify_quote(file)
         #access pdf and transforms it into table
         print((date) + " in " + (file))        
-        if ini_month == "07" and int(day) > 6:
+        if (ini_month == "07" and int(day) > 6) or int(ini_month) > 7:
             table = tabula.read_pdf("https://coe-pichincha.senescyt.gob.ec/wp-content/uploads/2020/" + month + "/" + file_url, 
                                     columns=[357, 492, 574, 842, 976, 1058], guess=False, pages='5', pandas_options={'header':None})
         elif (ini_month == "06" and day != "01") or ini_month == "07":
@@ -123,6 +123,7 @@ def v_chan(filename, values):
 # percent.to_csv("vchan_percent.csv", index = False)
 
 #to update values
+# cases = pd.read_csv('vchan_cases.csv')
 # def update_values(df, filename, values):
 #     '''
 #     updates values for dataframe.
@@ -143,5 +144,5 @@ def v_chan(filename, values):
 #     updated_df = pd.merge(df, new_df)
 #     return updated_df
 
-# complete = update_values(complete, "dfiles.txt", values = "all")
-# complete.to_csv("vchan.csv", index = False)
+# cases = update_values(cases, "dfiles.txt", values = "Casos")
+# cases.to_csv("vchan_cases.csv", index = False)
