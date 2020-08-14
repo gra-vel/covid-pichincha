@@ -68,9 +68,9 @@ def unify_names(df):
     df: dataframe
     return: dataframe
     '''
-    df['Parroquia'] = df['Parroquia'].str.replace(r'\s\(.*\)|\s\*|\*','') #removes ' ( )| *|*'
+    df['Parroquia'] = df['Parroquia'].str.replace(r'\s\(.*\)|\s\*|\*|\s\(T','') #removes ' ( )| *|*'
     if 'Casos' in df:
-        df['Casos'] = df['Casos'].str.replace(r'\(.*\)','') #removes ' ( )' for dates after 07-07
+        df['Casos'] = df['Casos'].str.replace(r'\(.*\)|A.*\)|\.','') #removes ' ( )' for dates after 07-07        
     name = {'ALANGASI': ['ALANGASi'],
             'MANUEL CORNEJO ASTORGA': ['MANUEL CORNEJO ASTORGA    '],
             'INDETERMINADO': ['INDETERMINADA']}
@@ -124,7 +124,9 @@ def fix_month(month, day):
     day: str
     return: str
     '''
-    if int(day) >= 30 and int(month)>4:        
+    if int(day) >= 30 and int(month) < 7 and int(month) > 4:
+        return str(int(month) + 1).zfill(2)
+    elif int(day) > 30 and int(month) >= 7:
         return str(int(month) + 1).zfill(2)
     else:
         return month
@@ -151,7 +153,9 @@ def verify_quote(filename):
     '''
     pr_dates = ["23.-Infografía-Provincial-02_05_2020.pdf", 
                 "6.-Infografía-Cantonal-29_05_2020.pdf", #no data 
-                "Infografía-Cantonal-25_06_2020.pdf"] #no data
+                "Infografía-Cantonal-25_06_2020.pdf", #no data
+                "105.-Infografía-Provincial-26_07_2020.pdf",
+                "108.-Infografía-Provincial-29_07_2020.pdf"]
     if filename in pr_dates:
         corrected_accent = re.sub('Infografía', 'Infografía', filename) #the accents in these files are different from the rest
         return quote(corrected_accent)
@@ -204,3 +208,19 @@ def col_to_dates(df):
     list_of_dates = [date.replace('_', '-') for date in list_of_dates]
     df.columns = list_of_dates
     return df
+
+def create_annotations(df,last_column):
+    '''
+    turns df into label df by removing intermediate values
+    df: dataframe
+    last_column: int
+    return: label dataframe
+    '''
+    annot_df = df.copy()
+    col_list = list(annot_df.columns)
+    col_list = col_list[0:last_column:5] #+ [col_list[-1]]
+    for column in annot_df:
+        annot_df[[column]] = annot_df[[column]].astype(int).astype(str)
+        if column not in col_list:
+            annot_df[column] = ""
+    return annot_df
