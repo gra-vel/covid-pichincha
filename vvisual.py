@@ -23,28 +23,30 @@ vfunc.col_to_dates(cases)
 cases.set_index('Parroquia', inplace = True)
 
 # heatmap function
-def heatmap_canton(df, CANTON, TIPO, hm='General'):
+def heatmap_canton(df, CANTON, TIPO, last_column, hm='General'):
     '''
     creates heatmap based on cases (number or percent) based on 
     selected canton, type of parish and type of data
     df: dataframe
     CANTON: str
     TIPO: str
-    hm: str
+    hm: str ("General or Normal")
     returns: seaborn heatmap
     '''
     df = df.drop(df[df.Canton != CANTON].index)
     df = df.drop(df[df.Tipo != TIPO].index)
-    df = df.drop(columns = ['Canton', 'Tipo'])
+    df = df.drop(columns = ['Canton', 'Tipo'])    
+    annota = vfunc.create_annotations(df, last_column-3)
     if hm == 'General':
         plt.figure(figsize=(20,17))
-        ax = sns.heatmap(df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=True, annot_kws={'fontsize':7},
-                         fmt='3g', cbar=False, mask=df.isnull())        
+        #change annot to True for numbers
+        ax = sns.heatmap(df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=annota, annot_kws={'fontsize':7},
+                         fmt='', cbar=False, mask=df.isnull())        
         plt.title('Heatmap of reported cases in '+CANTON.title()+' ('+TIPO.title()+')', fontsize=18)
         #ax.vlines([14,24,31], *ax.get_ylim()) #adds vertical lines for specific dates
     elif hm == 'Normal':
         normal_df = df.div(df.max(axis=1), axis=0)
-        plt.figure(figsize=(20,17))
+        plt.figure(figsize=(20,17))        
         ax = sns.heatmap(normal_df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=False,
                          cbar=False, mask=df.isnull())
         #ax.vlines([14,24,31], *ax.get_ylim())
@@ -60,7 +62,7 @@ def heatmap_canton(df, CANTON, TIPO, hm='General'):
 #             plt.close(fig)
 
 
-heatmap_canton(cases, 'QUITO', 'URBANA')
+heatmap_canton(cases, 'QUITO', 'URBANA', 101)
 plt.savefig('casos_quito_urb_gen.png', bbox_inches='tight')
 
 heatmap_canton(cases, 'QUITO', 'URBANA', hm='Normal')
