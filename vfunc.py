@@ -220,6 +220,7 @@ def create_annotations(df,last_column):
     col_list = list(annot_df.columns)
     col_list = col_list[0:last_column:5] #+ [col_list[-1]]
     for column in annot_df:
+        annot_df = annot_df.fillna(0)
         annot_df[[column]] = annot_df[[column]].astype(int).astype(str)
         if column not in col_list:
             annot_df[column] = ""

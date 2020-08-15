@@ -23,7 +23,7 @@ vfunc.col_to_dates(cases)
 cases.set_index('Parroquia', inplace = True)
 
 # heatmap function
-def heatmap_canton(df, CANTON, TIPO, last_column, hm='General'):
+def heatmap_canton(df, CANTON, TIPO, last_column=0, hm='General'):
     '''
     creates heatmap based on cases (number or percent) based on 
     selected canton, type of parish and type of data
@@ -43,13 +43,13 @@ def heatmap_canton(df, CANTON, TIPO, last_column, hm='General'):
         ax = sns.heatmap(df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=annota, annot_kws={'fontsize':7},
                          fmt='', cbar=False, mask=df.isnull())        
         plt.title('Heatmap of reported cases in '+CANTON.title()+' ('+TIPO.title()+')', fontsize=18)
-        #ax.vlines([14,24,31], *ax.get_ylim()) #adds vertical lines for specific dates
+        # ax.vlines([14,24,31], *ax.get_ylim()) #adds vertical lines for specific dates
     elif hm == 'Normal':
         normal_df = df.div(df.max(axis=1), axis=0)
         plt.figure(figsize=(20,17))        
         ax = sns.heatmap(normal_df, cmap=sns.cm.rocket_r, robust=True, xticklabels=5, annot=False,
                          cbar=False, mask=df.isnull())
-        #ax.vlines([14,24,31], *ax.get_ylim())
+        # ax.vlines([14,24,31], *ax.get_ylim())
         plt.title('Heatmap of reported cases in '+CANTON.title()+' ('+TIPO.title()+')'+' - Normalized', fontsize=18)
 
 # plotting heatmaps for each canton and type
@@ -68,7 +68,7 @@ plt.savefig('casos_quito_urb_gen.png', bbox_inches='tight')
 heatmap_canton(cases, 'QUITO', 'URBANA', hm='Normal')
 plt.savefig('casos_quito_urb_norm.png', bbox_inches='tight')
 
-heatmap_canton(cases, 'QUITO', 'RURAL')
+heatmap_canton(cases, 'QUITO', 'RURAL', 101)
 plt.savefig('casos_quito_rur_gen.png', bbox_inches='tight')
 
 heatmap_canton(cases, 'QUITO', 'RURAL', hm='Normal')
