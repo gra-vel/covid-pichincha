@@ -62,13 +62,13 @@ def heatmap_canton(df, CANTON, TIPO, last_column=0, hm='General'):
 #             plt.close(fig)
 
 
-heatmap_canton(cases, 'QUITO', 'URBANA', 101)
+heatmap_canton(cases, 'QUITO', 'URBANA', 131)
 plt.savefig('casos_quito_urb_gen.png', bbox_inches='tight')
 
 heatmap_canton(cases, 'QUITO', 'URBANA', hm='Normal')
 plt.savefig('casos_quito_urb_norm.png', bbox_inches='tight')
 
-heatmap_canton(cases, 'QUITO', 'RURAL', 101)
+heatmap_canton(cases, 'QUITO', 'RURAL', 131)
 plt.savefig('casos_quito_rur_gen.png', bbox_inches='tight')
 
 heatmap_canton(cases, 'QUITO', 'RURAL', hm='Normal')
