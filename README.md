@@ -14,12 +14,12 @@ The objective of this project is to build a data set from information contained 
 
 Most of the official raw data in the country is not available from open sources at the current moment (July 2020). However, official authorities in the province of Pichincha do publish a report of daily cases in a pdf ([site](https://coe-pichincha.senescyt.gob.ec/situacion-pichincha/)). It would be possible to copy and paste this data into an Excel file, although it would be a tiresome task. Therefore, this project aims to automate this process by reading the pdf, extracting the table, merging it with the data of previous dates and storing it as csv file for further analysis.
 
-In addition, I want to create a heatmap with the data for the first three months of the reports (April, 10 - July, 10) and after that I will update this data every month. However, there are several dates when the report was not published or it did not have detailed data during this period. Specifically, there were 24 days with no data out of 123 days in the period, which is around 20% of the total:
+In addition, I want to create a heatmap with the data for the first three months of the reports (April, 10 - July, 10) and after that I will update this data every month. However, there are several dates when the report was not published or it did not have detailed data during this period. Specifically, there were 25 days with no data out of 154 days in the period, which is around 16% of the total:
 - April: 5 days
 - May: 9 days
 - June: 3 days
 - July: 6 days
-- August: 1 day
+- August: 2 days
 
 It is important to note that the official data is only showing the reported cases of positive tests for COVID-19 each day. Due to the limited amount of tests and the slow processing time, the real number of cases is supposed to be higher than what it is reported. Another issue to consider is the occasional report of lower number of cases in different parts of the city. These reports are supposed to show the cumulative number of cases. However, authorities cite misclassification or changes in the data management system as the reason why certain parts of the city report a lower number of cases than days before. These issues have cast doubt on the validity of this data and even authorities themselves have recognized that the reported number of cases does not represent the entire picture.
 
@@ -36,11 +36,11 @@ There are three scripts in the project:
 The file [dfiles.txt](dfiles.txt) has the names and dates of the reports. This file does need to be manually updated, although this could also be automated in a future development of the project. For the time being, to update this file I need to go to the site where the pdfs are and check the dates when the report was published. I add the last part of the url into the file, as in previous dates. The update function in vmain.py looks for the missing dates and adds the data to the previous data frame using dupdate.txt.
 
 ## Visualization 
-### (updated until August 2020)
+### (updated until September 2020)
 
 This data focuses only on the city of Quito, due to the fact that it has the largest population and biggest proportion of COVID-19 cases in the province. The heatmap allows to show how the trend in the reports changes throughout the city in this period. The three vertical lines in this heatmap represent three periods where there were no daily reports for more than one day. Therefore, the increase of cases appear to be significant from one day to the other, but this is only due to the lack of data in the missing days. 
 
-It is interesting to see how certain parts of the city were more affected at the beginning, but apparently managed to control the rate of contagion in the next weeks. Most parts of the city that reported more than 100 cases in May, reached over 400 cases at the beginning of July. Guamani and Chillogallo are located next to each other in the southern region of the city and combined had over 1 400 of the cases in the city by July 10th. One month later, both regions have over 1 000 cases each.
+It is interesting to see how certain parts of the city were more affected at the beginning, but apparently managed to control the rate of contagion in the next weeks. Most parts of the city that reported more than 100 cases in May, reached over 400 cases at the beginning of July. Guamani and Chillogallo are located next to each other in the southern region of the city and combined had over 1 400 of the cases in the city by July 10th. Two months later, these are still the leading areas by number of cases in the city with 3 800 confirmed cases.
 
 ![](casos_quito_urb_gen.png)
 
@@ -48,7 +48,7 @@ To check the dates for highest and lowest number of cases for each part of the c
 
 ![](casos_quito_urb_norm.png)
 
-In the rural area, the same heatmaps suggest that the situation is less severe. Cases over 100 are located only in 8 parts of the rural area, being Calderon and Conocoto the most affected locations. The number of cases in several parts of the city are in the single digit range. 
+In the rural area, the same heatmaps suggest that the situation is less severe. Calderon and Conocoto are the most affected locations. The number of cases in several parts of the city are under 100. 
 
 ![](casos_quito_rur_gen.png)
 
