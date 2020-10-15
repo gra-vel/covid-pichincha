@@ -124,7 +124,7 @@ def fix_month(month, day):
     day: str
     return: str
     '''
-    if int(day) >= 30 and int(month) < 7 and int(month) > 4:
+    if int(day) >= 30 and int(month) != 8 and int(month) > 4:
         return str(int(month) + 1).zfill(2)
     elif int(day) > 30 and int(month) == 7:
         return str(int(month) + 1).zfill(2)
