@@ -60,8 +60,8 @@ def format_table(table, values):
     #removes names for 'canton'
     cantones = ['D. M. QUITO', 'MEJIA', 'PEDRO MONCAYO', 'RUMINAHUI', 'TOTAL', 'Canton / Parroquia', 
                 'DISTRITO METROPOLITANO DE QUITO', 'Parroquia de domicilio declarada por la persona atendida',
-                'Total', ' TOTAL', 'QUITO', 'QUITO (CABECERA CANTONAL)', 'SITUACIO', 
-                '* Corresponde a Quito Cabecera Cantonal']
+                'Total', ' TOTAL', 'QUITO', 'QUITO (CABECERA CANTONAL)', 'SITUACIO', 'Canton / Parroquia Nu',
+                '* Corresponde a Quito Cabecera Cantonal', 'INDETERMINADA']
     for row in df['Parroquia']:
         if row in cantones:
             df = df.drop(df[df.Parroquia == row].index)
@@ -92,7 +92,7 @@ def v_chan(filename, values):
         print((date) + " in " + (file))        
         if (ini_month == "07" and int(day) > 6) or int(ini_month) > 7:
             table = tabula.read_pdf("https://coe-pichincha.senescyt.gob.ec/wp-content/uploads/2020/" + month + "/" + file_url, 
-                                    columns=[357, 492, 574, 842, 976, 1058], guess=False, pages='5', pandas_options={'header':None})
+                                    columns=[357, 492, 574, 842, 986, 1058], guess=False, pages='5', pandas_options={'header':None})
         elif (ini_month == "06" and day != "01") or ini_month == "07":
             table = camelot.read_pdf("https://coe-pichincha.senescyt.gob.ec/wp-content/uploads/2020/" + month + "/" + file_url, 
                                      pages = '5', flavor = "stream")
@@ -123,26 +123,26 @@ def v_chan(filename, values):
 # percent.to_csv("vchan_percent.csv", index = False)
 
 #to update values
-# cases = pd.read_csv('vchan_cases.csv')
-# def update_values(df, filename, values):
-#     '''
-#     updates values for dataframe.
-#     df: previous dataframe
-#     filename: complete filename with all dates
-#     values: 'all' for everything, 'Casos' for cases, 'Porcentaje' for percentages
-#     returns: dataframe
-#     '''
-#     #gets name from last column
-#     last_column = df.columns[len(df.columns) - 1]
-#     #gets last registered date
-#     last_date = vfunc.extract_date(last_column, pattern = 'date')
-#     #creates new textfile with missing dates
-#     vfunc.new_filename(filename, last_date)
-#     #imports pdfs into new df
-#     new_df = v_chan("dupdate.txt", values)
-#     #merges old df with new df
-#     updated_df = pd.merge(df, new_df)
-#     return updated_df
+cases = pd.read_csv('vchan_cases.csv')
+def update_values(df, filename, values):
+    '''
+    updates values for dataframe.
+    df: previous dataframe
+    filename: complete filename with all dates
+    values: 'all' for everything, 'Casos' for cases, 'Porcentaje' for percentages
+    returns: dataframe
+    '''
+    #gets name from last column
+    last_column = df.columns[len(df.columns) - 1]
+    #gets last registered date
+    last_date = vfunc.extract_date(last_column, pattern = 'date')
+    #creates new textfile with missing dates
+    vfunc.new_filename(filename, last_date)
+    #imports pdfs into new df
+    new_df = v_chan("dupdate.txt", values)
+    #merges old df with new df
+    updated_df = pd.merge(df, new_df, how = 'right')
+    return updated_df
 
-# cases = update_values(cases, "dfiles.txt", values = "Casos")
-# cases.to_csv("vchan_cases.csv", index = False)
+cases = update_values(cases, "dfiles.txt", values = "Casos")
+cases.to_csv("vchan_cases.csv", index = False)

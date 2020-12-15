@@ -70,9 +70,9 @@ def unify_names(df):
     '''
     df['Parroquia'] = df['Parroquia'].str.replace(r'\s\(.*\)|\s\*|\*|\s\(T|\(','') #removes ' ( )| *|*'
     if 'Casos' in df:
-        df['Casos'] = df['Casos'].str.replace(r'\(.*\)|A.*\)|\.|T\s|,','') #removes ' ( )' for dates after 07-07        
+        df['Casos'] = df['Casos'].str.replace(r'\(.*\)|A.*\)|\.|T\s|,|\s|D','') #removes ' ( )' for dates after 07-07        
     name = {'ALANGASI': ['ALANGASi'],
-            'MANUEL CORNEJO ASTORGA': ['MANUEL CORNEJO ASTORGA    '],
+            'MANUEL CORNEJO ASTORGA': ['MANUEL CORNEJO ASTORGA    ', 'MANUEL CORNEJO ASTORGAT  A  N', 'MANUEL CORNEJO ASTORGA     (TANDAPI)'],
             'INDETERMINADO': ['INDETERMINADA']}
     for canton in name:
         for altname in name[canton]:
@@ -124,7 +124,7 @@ def fix_month(month, day):
     day: str
     return: str
     '''
-    if int(day) >= 30 and int(month) != 8 and int(month) > 4 and int(month) < 10:
+    if int(day) >= 30 and int(month) != 8 and int(month) > 4 and int(month) != 10:
         return str(int(month) + 1).zfill(2)
     elif int(day) > 30 and int(month) == 7:
         return str(int(month) + 1).zfill(2)
